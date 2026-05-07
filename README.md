@@ -1,16 +1,21 @@
 # template_workout
 
-Plantilla HTML con **botones dinámicos** para:
+Plantilla HTML con **2 botones (badges) dinámicos** para:
 
 - GitHub Codespaces (abre el repo)
 - Google Colab (abre un `.ipynb` dentro del repo)
 
-## Query params (opción A)
+La idea es publicar este repo en **GitHub Pages** y compartir links con **query params** para que el mismo `index.html` sirva para todos los ejercicios.
 
-- **`repo`** (obligatorio): `owner/repo`
-- **`ref`** (opcional): rama/tag/sha. Default: `main`
-- **`path`** (opcional): ruta al `.ipynb` dentro del repo (si no está, Colab se deshabilita)
-- **`title`**, **`subtitle`**, **`hint`** (opcionales): textos del panel
+## Parámetros (query params)
+
+- **`repo`**: `owner/repo` (si no lo pasas, se usan los links por defecto del HTML)
+- **`ref`**: rama/tag/sha (opcional, default `main`)
+- **`path`**: ruta al `.ipynb` dentro del repo (opcional; si no está, Colab se desactiva cuando `repo` sí está)
+- **`mode`**: `colab` o `codespaces` (opcional)
+  - `mode=colab` → **se oculta Codespaces**
+  - `mode=codespaces` → **se oculta Colab**
+  - sin `mode` → se ven ambos (si falta `path`, Colab queda desactivado)
 
 ## Ejemplos (Live Server)
 
@@ -20,14 +25,33 @@ Con Live Server, tu URL base es:
 
 Prueba estos ejemplos:
 
-### 7_Funciones (Colab + Codespaces)
+### Solo Colab (se oculta Codespaces)
 
-`http://127.0.0.1:5500/index.html?repo=aie-online-tb/aie-prework&ref=main&path=notebooks/7_Funciones.ipynb&title=Ejercicio%207&subtitle=Funciones`
+- `http://127.0.0.1:5500/index.html?mode=colab&repo=aie-online-tb/aie-prework&ref=main&path=notebooks/7_Funciones.ipynb`
+- `http://127.0.0.1:5500/index.html?mode=colab&repo=aie-online-tb/aie-prework&ref=main&path=notebooks/8_Diccionarios.ipynb`
 
-### 8_Diccionarios (Colab + Codespaces)
+Ejemplo “solo Colab” para GitHub Pages (cambia ORG/REPO):
 
-`http://127.0.0.1:5500/index.html?repo=aie-online-tb/aie-prework&ref=main&path=notebooks/8_Diccionarios.ipynb&title=Ejercicio%208&subtitle=Diccionarios`
+- `https://NOMBRE_ORG.github.io/NOMBRE_REPO/index.html?mode=colab&repo=aie-online-tb/aie-prework&ref=main&path=notebooks/8_Diccionarios.ipynb`
 
-### Solo Codespaces (sin `path`)
+### Solo Codespaces (se oculta Colab)
 
-`http://127.0.0.1:5500/index.html?repo=aie-online-tb/aie-prework&ref=main&title=Repo%20en%20Codespaces&hint=Colab%20requiere%20path%20al%20ipynb`
+- `http://127.0.0.1:5500/index.html?mode=codespaces&repo=aie-online-tb/aie-prework&ref=main`
+
+### Ambos (sin `mode`)
+
+- `http://127.0.0.1:5500/index.html?repo=aie-online-tb/aie-prework&ref=main&path=notebooks/7_Funciones.ipynb`
+
+## Despliegue en GitHub Pages (organización)
+
+1. Crea un repo en la **organización** y sube `index.html` (y opcionalmente `style.css`/`README.md`).
+2. En el repo: **Settings → Pages**
+   - **Source**: “Deploy from a branch”
+   - **Branch**: `main`
+   - **Folder**: `/ (root)`
+3. La URL quedará como:
+   - `https://NOMBRE_ORG.github.io/NOMBRE_REPO/index.html`
+
+Ejemplo ya desplegado (cambia ORG/REPO):
+
+- `https://NOMBRE_ORG.github.io/NOMBRE_REPO/index.html?mode=colab&repo=aie-online-tb/aie-prework&ref=main&path=notebooks/8_Diccionarios.ipynb`
