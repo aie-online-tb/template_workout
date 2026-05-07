@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launcher</title>
+</head>
+<body>
+
+<p align="center">
+  <a id="btn-colab" href="#" target="_blank" rel="noopener noreferrer">
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir en Colab"/>
+  </a>
+</p>
+
+<p align="center">
+  <a id="btn-codespaces" href="#" target="_blank" rel="noopener noreferrer">
+    <img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"/>
+  </a>
+</p>
+
+  <script>
+    // Params:
+    // - repo=owner/repo  (required to override defaults)
+    // - ref=main         (optional, default main)
+    // - path=notebooks/x.ipynb (required for Colab override)
+    // - mode=colab|codespaces (optional: hide the other button)
+    const params = new URLSearchParams(window.location.search);
+    const repo = params.get("repo");
+    const ref = params.get("ref") || "main";
+    const path = params.get("path");
+    const mode = (params.get("mode") || "").toLowerCase();
+
+    const btnColab = document.getElementById("btn-colab");
+    const btnCodespaces = document.getElementById("btn-codespaces");
+
+    if (mode === "colab") {
+      btnCodespaces.closest("p").style.display = "none";
+    }
+    if (mode === "codespaces") {
+      btnColab.closest("p").style.display = "none";
+    }
+
+    if (repo && repo.includes("/")) {
+      // Codespaces (repo)
+      btnCodespaces.href = `https://codespaces.new/${repo}${ref ? `?ref=${encodeURIComponent(ref)}` : ""}`;
+
+      // Colab (notebook)
+      if (path) {
+        const cleanPath = path.replace(/^\/+/, "");
+        btnColab.href = `https://colab.research.google.com/github/${repo}/blob/${ref}/${cleanPath}`;
+      } else {
+        // If repo is provided but no notebook path, don't keep a misleading default.
+        btnColab.removeAttribute("href");
+        btnColab.style.opacity = "0.55";
+        btnColab.style.pointerEvents = "none";
+      }
+    }
+  </script>
+</body>
+</html>

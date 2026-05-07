@@ -1,0 +1,99 @@
+/* Base */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Card */
+.card {
+  width: min(360px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+  color: #1f2328;
+  font-size: 1.1rem;
+}
+
+p {
+  margin: 0 0 16px 0;
+  color: #636c76;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 650;
+  font-size: 0.9rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.btn-github {
+  background: #1f2328;
+  color: #ffffff;
+}
+
+.btn-github:hover {
+  background: #24292f;
+}
+
+.btn-colab {
+  background: #f9ab00;
+  color: #ffffff;
+}
+
+.btn-colab:hover {
+  background: #e39a00;
+}
+
+.hint {
+  margin-top: 12px;
+  font-size: 0.8rem;
+}
+
+.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Error */
+.error {
+  margin-top: 12px;
+  color: #cf222e;
+  font-weight: 650;
+  font-size: 0.85rem;
+}
