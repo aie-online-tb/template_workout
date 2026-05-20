@@ -1,60 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Launcher</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-<p align="center">
-  <a id="btn-colab" href="#" target="_blank" rel="noopener noreferrer">
-    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir en Colab"/>
-  </a>
-</p>
+<main class="card">
+  <h3 id="heading-vscode" class="option-title">Opción remota: trabaja en una máquina virtual</h3>
+  
+  <section id="section-colab">
+  <p class="btn-row" id="row-colab">
+    <a id="btn-colab" href="#" target="_blank" rel="noopener noreferrer">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir en Colab"/>
+    </a>
+  </p>
+</section>
 
-<p align="center">
-  <a id="btn-codespaces" href="#" target="_blank" rel="noopener noreferrer">
-    <img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"/>
-  </a>
-</p>
+  <section id="section-codespaces" class="option-block codespaces-block">
+    <p>
+      Abre el proyecto en <strong>GitHub Codespaces</strong> (entorno en la nube con VS Code en el navegador).
+      Pulsa el botón y crea o reutiliza un Codespace del repositorio:
+    </p>
+    <p class="repo-url-line">
+      <strong>
+        <a id="link-codespaces-repo" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true"></a>
+      </strong>
+    </p>
+    <p class="btn-row" id="row-codespaces">
+      <a id="btn-codespaces" href="#" target="_blank" rel="noopener noreferrer">
+        <img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"/>
+      </a>
+    </p>
+  </section>
+
+  <section id="section-vscode" class="option-block vscode-block" aria-labelledby="heading-local">
+    <h3 id="heading-local" class="option-title">Opción local en VS Code: Fork + Clone del repositorio GitHub</h3>
+    <p>
+      Necesitas tener <strong>Python 3</strong> y <strong>VS Code</strong> instalados
+      (nuestro IDE de referencia en el curso).
+    </p>
+    <p class="steps-title"><strong>Pasos:</strong></p>
+    <ol class="steps">
+      <li>
+        Ve al repositorio oficial:
+        <strong>
+          <a id="link-repo-official" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true"></a>
+        </strong>
+      </li>
+      <li>Haz clic en <strong>Fork</strong></li>
+      <li>En tu fork, botón <strong>Code</strong> → copia la URL HTTPS</li>
+      <li>
+        En tu terminal local:
+        <pre class="code-block"><code id="clone-command">git clone https://github.com/TU_USUARIO/REPOSITORIO_FORKEADO.git</code></pre>
+      </li>
+      <li>Haz `pip install` para instalar las dependencias del ejercicio que toque</li>
+
+      <li>Abre la carpeta en <strong>VS Code</strong> local</li>
+      <li>Trabaja, haz <strong>commit</strong> y <strong>push</strong> a tu fork para guardar tus cambios</li>
+    </ol>
+  </section>
+</main>
 
   <script>
     // Params:
-    // - repo=owner/repo  (required to override defaults)
+    // - repo=owner/repo  OR repo=https://github.com/owner/repo
     // - ref=main         (optional, default main)
     // - path=notebooks/x.ipynb (required for Colab override)
-    // - mode=colab|codespaces (optional: hide the other button)
-    const params = new URLSearchParams(window.location.search);
-    const repo = params.get("repo");
+    // - mode=colab|codespaces (optional: hide the other section)
+    /** Si la query viene doble-codificada (p. ej. ?mode%3Dcodespaces%26repo%3D...) la decodifica una vez. */
+    function normalizeQueryParams(search) {
+      const q = (search.startsWith("?") ? search.slice(1) : search).trim();
+      if (!q) return new URLSearchParams();
+      let params = new URLSearchParams(q);
+      if (!params.get("repo") && (q.includes("%3D") || q.includes("%26"))) {
+        try {
+          const decoded = decodeURIComponent(q.replace(/\+/g, " "));
+          const decodedParams = new URLSearchParams(decoded);
+          if (decodedParams.get("repo") || decodedParams.get("mode")) {
+            return decodedParams;
+          }
+        } catch (_) {
+          /* ignore */
+        }
+      }
+      return params;
+    }
+
+    function parseRepoParam(value) {
+      if (!value) return null;
+      const trimmed = decodeURIComponent(value.trim()).replace(/\/$/, "");
+      const fromUrl = trimmed.match(/github\.com\/([^/?#]+)\/([^/?#]+)/i);
+      if (fromUrl) return `${fromUrl[1]}/${fromUrl[2]}`;
+      if (trimmed.includes("/")) return trimmed;
+      return null;
+    }
+
+    function applyRepoLinks(repoSlug) {
+      const repoUrl = `https://github.com/${repoSlug}`;
+      const repoName = repoSlug.split("/")[1];
+
+      linkRepoOfficial.href = repoUrl;
+      linkRepoOfficial.textContent = repoUrl;
+      linkRepoOfficial.removeAttribute("aria-disabled");
+
+      linkCodespacesRepo.href = repoUrl;
+      linkCodespacesRepo.textContent = repoUrl;
+      linkCodespacesRepo.removeAttribute("aria-disabled");
+
+      cloneCommand.textContent = `git clone https://github.com/TU_USUARIO/${repoName}.git`;
+
+      btnCodespaces.href = `https://codespaces.new/${repoSlug}${ref ? `?ref=${encodeURIComponent(ref)}` : ""}`;
+
+      if (path) {
+        const cleanPath = path.replace(/^\/+/, "");
+        btnColab.href = `https://colab.research.google.com/github/${repoSlug}/blob/${ref}/${cleanPath}`;
+        btnColab.style.opacity = "";
+        btnColab.style.pointerEvents = "";
+      } else {
+        btnColab.removeAttribute("href");
+        btnColab.style.opacity = "0.55";
+        btnColab.style.pointerEvents = "none";
+      }
+    }
+
+    const params = normalizeQueryParams(window.location.search);
+    const repo = parseRepoParam(params.get("repo"));
     const ref = params.get("ref") || "main";
     const path = params.get("path");
     const mode = (params.get("mode") || "").toLowerCase();
 
     const btnColab = document.getElementById("btn-colab");
     const btnCodespaces = document.getElementById("btn-codespaces");
+    const sectionColab = document.getElementById("section-colab");
+    const sectionCodespaces = document.getElementById("section-codespaces");
+    const linkRepoOfficial = document.getElementById("link-repo-official");
+    const linkCodespacesRepo = document.getElementById("link-codespaces-repo");
+    const cloneCommand = document.getElementById("clone-command");
 
     if (mode === "colab") {
-      btnCodespaces.closest("p").style.display = "none";
+      sectionCodespaces.style.display = "none";
     }
     if (mode === "codespaces") {
-      btnColab.closest("p").style.display = "none";
+      sectionColab.style.display = "none";
     }
 
-    if (repo && repo.includes("/")) {
-      // Codespaces (repo)
-      btnCodespaces.href = `https://codespaces.new/${repo}${ref ? `?ref=${encodeURIComponent(ref)}` : ""}`;
-
-      // Colab (notebook)
-      if (path) {
-        const cleanPath = path.replace(/^\/+/, "");
-        btnColab.href = `https://colab.research.google.com/github/${repo}/blob/${ref}/${cleanPath}`;
-      } else {
-        // If repo is provided but no notebook path, don't keep a misleading default.
-        btnColab.removeAttribute("href");
-        btnColab.style.opacity = "0.55";
-        btnColab.style.pointerEvents = "none";
-      }
+    if (repo) {
+      applyRepoLinks(repo);
+    } else {
+      const missingRepoMsg = "(falta ?repo=owner/nombre en la URL del launcher)";
+      linkCodespacesRepo.textContent = missingRepoMsg;
+      linkCodespacesRepo.removeAttribute("href");
+      linkCodespacesRepo.setAttribute("aria-disabled", "true");
+      linkRepoOfficial.textContent = missingRepoMsg;
+      linkRepoOfficial.removeAttribute("href");
+      linkRepoOfficial.setAttribute("aria-disabled", "true");
     }
   </script>
 </body>

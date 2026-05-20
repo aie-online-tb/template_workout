@@ -5,18 +5,134 @@ body {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  background: transparent;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #f6f8fa;
 }
 
 /* Card */
 .card {
-  width: min(360px, calc(100vw - 32px));
-  padding: 22px;
+  width: min(560px, calc(100vw - 32px));
+  padding: 24px;
   border: 1px solid #d0d7de;
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
+}
+
+.btn-row {
+  margin: 0 0 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+}
+
+.btn-row a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  line-height: 0;
+}
+
+.btn-row img {
+  display: block;
+  height: 32px;
+  width: auto;
+  max-width: min(320px, 100%);
+  object-fit: contain;
+  object-position: center;
+}
+
+.option-block {
+  text-align: left;
+}
+
+.codespaces-block {
+  margin-top: 8px;
+}
+
+.codespaces-block p,
+.vscode-block p {
+  margin: 0 0 12px 0;
+  color: #57606a;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.repo-url-line {
+  text-align: center;
+  word-break: break-all;
+}
+
+.repo-url-line a {
+  color: #0969da;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.repo-url-line a:hover {
+  text-decoration: underline;
+}
+
+.vscode-block {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eaeef2;
+}
+
+.option-title {
+  margin: 0 0 12px 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: #1f2328;
+  text-align: left;
+}
+
+.steps-title {
+  margin-bottom: 8px !important;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #424a53;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.steps li {
+  margin-bottom: 10px;
+}
+
+.steps a {
+  color: #0969da;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.steps a:hover {
+  text-decoration: underline;
+}
+
+.code-block {
+  margin: 8px 0 0 0;
+  padding: 10px 12px;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  overflow-x: auto;
+  text-align: left;
+}
+
+.code-block code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  color: #1f2328;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 h3 {

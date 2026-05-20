@@ -17,6 +17,10 @@ La idea es publicar este repo en **GitHub Pages** y compartir links con **query 
   - `mode=codespaces` → **se oculta Colab**
   - sin `mode` → se ven ambos (si falta `path`, Colab queda desactivado)
 
+**Importante:** en la barra del navegador deben aparecer caracteres **`=`** y **`&`** entre parámetros, por ejemplo  
+`...?mode=codespaces&repo=owner/repo&ref=main`  
+Si pegas algo como `?mode%3Dcodespaces%26repo%3D...`, muchas veces viene de una herramienta que **codifica dos veces** la URL (el launcher ahora intenta corregirlo, pero mejor usar la forma no codificada).
+
 ## Ejemplos (Live Server)
 
 Con Live Server, tu URL base es:
