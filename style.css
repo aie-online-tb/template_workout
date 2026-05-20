@@ -50,6 +50,41 @@ body {
   text-align: left;
 }
 
+.callout-login {
+  margin: 0 0 16px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #ddf4ff;
+  border-left: 4px solid #0969da;
+  text-align: left;
+}
+
+.callout-login p {
+  margin: 0;
+  color: #1f2328;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.option-subtitle {
+  margin: 20px 0 10px 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #1f2328;
+  text-align: left;
+}
+
+.codespaces-block .option-subtitle:first-of-type {
+  margin-top: 0;
+}
+
+.codespaces-hint {
+  margin: 0 0 8px 0 !important;
+  font-size: 0.85rem !important;
+  color: #57606a !important;
+  text-align: left;
+}
+
 .codespaces-block {
   margin-top: 8px;
 }
@@ -81,6 +116,17 @@ body {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #eaeef2;
+}
+
+.vscode-logo-row a {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.vscode-logo {
+  display: block;
+  height: 48px;
+  width: auto;
 }
 
 .option-title {

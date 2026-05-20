@@ -9,35 +9,66 @@
 <body>
 
 <main class="card">
-  <h3 id="heading-vscode" class="option-title">Opción remota: trabaja en una máquina virtual</h3>
-  
-  <section id="section-colab">
-  <p class="btn-row" id="row-colab">
-    <a id="btn-colab" href="#" target="_blank" rel="noopener noreferrer">
-      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir en Colab"/>
-    </a>
-  </p>
-</section>
+  <h3 id="heading-remote" class="option-title">Opción remota: trabaja en una máquina virtual</h3>
+
+  <section id="section-colab" class="option-block">
+    <p class="btn-row" id="row-colab">
+      <a id="btn-colab" href="#" target="_blank" rel="noopener noreferrer">
+        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir en Colab"/>
+      </a>
+    </p>
+  </section>
 
   <section id="section-codespaces" class="option-block codespaces-block">
+    <div class="callout callout-login" role="note">
+      <p>
+        Antes de empezar, inicia sesión en tu <strong>cuenta de GitHub</strong> en el navegador
+      </p>
+    </div>
+    <h4 class="option-subtitle">Opción 1: Trabaja online en GitHub Codespaces</h4>
     <p>
-      Abre el proyecto en <strong>GitHub Codespaces</strong> (entorno en la nube con VS Code en el navegador).
-      Pulsa el botón y crea o reutiliza un Codespace del repositorio:
-    </p>
-    <p class="repo-url-line">
-      <strong>
-        <a id="link-codespaces-repo" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true"></a>
-      </strong>
+      Pulsa el botón para abrir el proyecto en <strong>GitHub Codespaces</strong>
+      (En esta opción, los cambios se guardan en la máquina virtual, pero <strong>no en tu repositorio propio de GitHub</strong>).
     </p>
     <p class="btn-row" id="row-codespaces">
       <a id="btn-codespaces" href="#" target="_blank" rel="noopener noreferrer">
         <img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"/>
       </a>
     </p>
+    <p class="codespaces-hint">
+      Si ya tienes un Codespace de este repositorio, <strong>reutilízalo</strong>; no hace falta crear uno nuevo cada vez.
+    </p>
+
+    <h4 class="option-subtitle">Opción 2: empezar desde GitHub (Fork + Codespaces)</h4>
+    <p>
+      Esta opción te permitirá guardar tus cambios en <strong>tu repositorio propio de GitHub</strong>
+    </p>
+    <ol class="steps">
+      <li>
+        Ve al repositorio oficial:
+        <strong>
+          <a id="link-codespaces-repo" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true"></a>
+        </strong>
+      </li>
+      <li>Haz clic en <strong>Fork</strong> para hacer una copia del repositorio en tu cuenta de GitHub</li>
+      <li>
+        En <strong>tu fork</strong>, botón <strong>Code</strong> → <strong>Open in Codespaces</strong>
+      </li>
+      <li>Comienza a trabajar. Haz <strong>add</strong>, <strong>commit</strong> y <strong>push</strong> a tu fork para guardar tus cambios</li>
+    </ol>
   </section>
 
   <section id="section-vscode" class="option-block vscode-block" aria-labelledby="heading-local">
     <h3 id="heading-local" class="option-title">Opción local en VS Code: Fork + Clone del repositorio GitHub</h3>
+    <p class="btn-row vscode-logo-row">
+      <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" title="Descargar Visual Studio Code">
+        <img
+          class="vscode-logo"
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+          alt="Visual Studio Code"
+        />
+      </a>
+    </p>
     <p>
       Necesitas tener <strong>Python 3</strong> y <strong>VS Code</strong> instalados
       (nuestro IDE de referencia en el curso).
@@ -53,13 +84,13 @@
       <li>Haz clic en <strong>Fork</strong></li>
       <li>En tu fork, botón <strong>Code</strong> → copia la URL HTTPS</li>
       <li>
-        En tu terminal local:
+        En tu terminal local <strong>clona tu fork</strong>:
         <pre class="code-block"><code id="clone-command">git clone https://github.com/TU_USUARIO/REPOSITORIO_FORKEADO.git</code></pre>
       </li>
       <li>Haz `pip install` para instalar las dependencias del ejercicio que toque</li>
 
       <li>Abre la carpeta en <strong>VS Code</strong> local</li>
-      <li>Trabaja, haz <strong>commit</strong> y <strong>push</strong> a tu fork para guardar tus cambios</li>
+      <li>Comienza a trabajar. Haz <strong>add</strong>, <strong>commit</strong> y <strong>push</strong> a tu fork para guardar tus cambios</li>
     </ol>
   </section>
 </main>
