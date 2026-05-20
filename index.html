@@ -58,8 +58,8 @@
     </ol>
   </section>
 
-  <section id="section-vscode" class="option-block vscode-block" aria-labelledby="heading-local">
-    <h3 id="heading-local" class="option-title">Opción local en VS Code: Fork + Clone del repositorio GitHub</h3>
+  <section id="section-vscode-codespaces" class="option-block vscode-block" aria-labelledby="heading-local-codespaces">
+    <h3 id="heading-local-codespaces" class="option-title">Opción local en VS Code: Fork + Clone del repositorio GitHub</h3>
     <p class="btn-row vscode-logo-row">
       <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" title="Descargar Visual Studio Code">
         <img
@@ -87,10 +87,38 @@
         En tu terminal local <strong>clona tu fork</strong>:
         <pre class="code-block"><code id="clone-command">git clone https://github.com/TU_USUARIO/REPOSITORIO_FORKEADO.git</code></pre>
       </li>
-      <li>Haz `pip install` para instalar las dependencias del ejercicio que toque</li>
-
+      <li>Haz <code>pip install</code> para instalar las dependencias del ejercicio que toque</li>
       <li>Abre la carpeta en <strong>VS Code</strong> local</li>
       <li>Comienza a trabajar. Haz <strong>add</strong>, <strong>commit</strong> y <strong>push</strong> a tu fork para guardar tus cambios</li>
+    </ol>
+  </section>
+
+  <section id="section-vscode-colab" class="option-block vscode-block" aria-labelledby="heading-local-colab">
+    <h3 id="heading-local-colab" class="option-title">Alternativa: trabajar en local con VS Code</h3>
+    <p>
+      Si prefieres trabajar en tu ordenador en lugar de en la nube, puedes hacerlo localmente.
+    </p>
+    <p class="btn-row vscode-logo-row">
+      <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" title="Descargar Visual Studio Code">
+        <img
+          class="vscode-logo"
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+          alt="Visual Studio Code"
+        />
+      </a>
+    </p>
+    <h4 class="option-subtitle">Opción local</h4>
+    <ol class="steps">
+      <li>
+        Clona el <strong>repositorio de clase</strong>:
+        <strong>
+          <a id="link-repo-colab-class" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true"></a>
+        </strong>
+        <pre class="code-block"><code id="clone-command-colab">git clone https://github.com/OWNER/REPO.git</code></pre>
+      </li>
+      <li>Copia los notebooks (<code>.ipynb</code>) a tu <strong>repositorio personal</strong></li>
+      <li>Abre los notebooks en <strong>VS Code</strong> (con la extensión <strong>Jupyter</strong> instalada)</li>
+      <li>Trabaja como lo harías en Colab, pero en tu ordenador</li>
     </ol>
   </section>
 </main>
@@ -129,19 +157,28 @@
       return null;
     }
 
+    function setRepoLink(anchor, url) {
+      anchor.href = url;
+      anchor.textContent = url;
+      anchor.removeAttribute("aria-disabled");
+    }
+
+    function setRepoLinkMissing(anchor) {
+      anchor.textContent = missingRepoMsg;
+      anchor.removeAttribute("href");
+      anchor.setAttribute("aria-disabled", "true");
+    }
+
     function applyRepoLinks(repoSlug) {
       const repoUrl = `https://github.com/${repoSlug}`;
       const repoName = repoSlug.split("/")[1];
 
-      linkRepoOfficial.href = repoUrl;
-      linkRepoOfficial.textContent = repoUrl;
-      linkRepoOfficial.removeAttribute("aria-disabled");
-
-      linkCodespacesRepo.href = repoUrl;
-      linkCodespacesRepo.textContent = repoUrl;
-      linkCodespacesRepo.removeAttribute("aria-disabled");
+      setRepoLink(linkRepoOfficial, repoUrl);
+      setRepoLink(linkCodespacesRepo, repoUrl);
+      setRepoLink(linkRepoColabClass, repoUrl);
 
       cloneCommand.textContent = `git clone https://github.com/TU_USUARIO/${repoName}.git`;
+      cloneCommandColab.textContent = `git clone ${repoUrl}.git`;
 
       btnCodespaces.href = `https://codespaces.new/${repoSlug}${ref ? `?ref=${encodeURIComponent(ref)}` : ""}`;
 
@@ -167,27 +204,30 @@
     const btnCodespaces = document.getElementById("btn-codespaces");
     const sectionColab = document.getElementById("section-colab");
     const sectionCodespaces = document.getElementById("section-codespaces");
+    const sectionVscodeCodespaces = document.getElementById("section-vscode-codespaces");
+    const sectionVscodeColab = document.getElementById("section-vscode-colab");
     const linkRepoOfficial = document.getElementById("link-repo-official");
     const linkCodespacesRepo = document.getElementById("link-codespaces-repo");
+    const linkRepoColabClass = document.getElementById("link-repo-colab-class");
     const cloneCommand = document.getElementById("clone-command");
+    const cloneCommandColab = document.getElementById("clone-command-colab");
+    const missingRepoMsg = "(falta ?repo=owner/nombre en la URL del launcher)";
 
     if (mode === "colab") {
       sectionCodespaces.style.display = "none";
+      sectionVscodeCodespaces.style.display = "none";
     }
     if (mode === "codespaces") {
       sectionColab.style.display = "none";
+      sectionVscodeColab.style.display = "none";
     }
 
     if (repo) {
       applyRepoLinks(repo);
     } else {
-      const missingRepoMsg = "(falta ?repo=owner/nombre en la URL del launcher)";
-      linkCodespacesRepo.textContent = missingRepoMsg;
-      linkCodespacesRepo.removeAttribute("href");
-      linkCodespacesRepo.setAttribute("aria-disabled", "true");
-      linkRepoOfficial.textContent = missingRepoMsg;
-      linkRepoOfficial.removeAttribute("href");
-      linkRepoOfficial.setAttribute("aria-disabled", "true");
+      setRepoLinkMissing(linkCodespacesRepo);
+      setRepoLinkMissing(linkRepoOfficial);
+      setRepoLinkMissing(linkRepoColabClass);
     }
   </script>
 </body>
